@@ -418,10 +418,6 @@ func ParseArgs(line string, options ...GetArgsOption) (parsed Args) {
 func NewFlags(name string) *flag.FlagSet {
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 
-	flags.Usage = func() {
-		flags.PrintDefaults()
-	}
-
 	return flags
 }
 
