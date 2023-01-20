@@ -1,7 +1,7 @@
 /*
- This package provides methods to parse a shell-like command line string into a list of arguments.
+This package provides methods to parse a shell-like command line string into a list of arguments.
 
- Words are split on white spaces, respecting quotes (single and double) and the escape character (backslash)
+Words are split on white spaces, respecting quotes (single and double) and the escape character (backslash)
 */
 package args
 
@@ -9,12 +9,12 @@ import (
 	"bufio"
 	"bytes"
 	"flag"
-	"fmt"
 	"io"
-	"io/ioutil"
 	"strconv"
 	"strings"
 	"unicode"
+
+	"github.com/spf13/cast"
 )
 
 const (
@@ -71,9 +71,9 @@ func (scanner *Scanner) NextToken() (s string, delim int, err error) {
 				escape = true
 				first = false
 
-                                if infield {
-				    buf.WriteString(string(c))
-                                }
+				if infield {
+					buf.WriteString(string(c))
+				}
 				continue
 			}
 
@@ -226,8 +226,6 @@ func (scanner *Scanner) NextToken() (s string, delim int, err error) {
 			return // ("", 0, io.EOF)
 		}
 	}
-
-	return
 }
 
 // Return all tokens as an array of strings
@@ -268,7 +266,7 @@ func (scanner *Scanner) getTokens(max int) ([]string, string, error) {
 
 				if !unicode.IsSpace(c) {
 					scanner.in.UnreadRune()
-					rest, err := ioutil.ReadAll(scanner.in)
+					rest, err := io.ReadAll(scanner.in)
 					return tokens, string(rest), err
 				}
 
@@ -284,12 +282,11 @@ func (scanner *Scanner) getTokens(max int) ([]string, string, error) {
 		tokens = append(tokens, tok)
 
 		if strings.ContainsRune(scanner.UserTokens, rune(delim)) {
-			tokens = append(tokens, string(delim))
+			tokens = append(tokens, cast.ToString(delim))
 		}
-
 	}
 
-	rest, err := ioutil.ReadAll(scanner.in)
+	rest, err := io.ReadAll(scanner.in)
 	if err == io.EOF {
 		err = nil
 	}
