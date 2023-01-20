@@ -422,7 +422,6 @@ func NewFlags(name string) *flag.FlagSet {
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 
 	flags.Usage = func() {
-		fmt.Printf("Usage of %s:\n", name)
 		flags.PrintDefaults()
 	}
 
