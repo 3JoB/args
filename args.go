@@ -417,7 +417,6 @@ func ParseArgs(line string, options ...GetArgsOption) (parsed Args) {
 // Create a new FlagSet to be used with ParseFlags
 func NewFlags(name string) *flag.FlagSet {
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
-
 	return flags
 }
 
